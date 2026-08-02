@@ -1,6 +1,6 @@
 # PQ Single-Address Backup (PQ-SAB)
 
-> BIP-38 for the post-quantum era. Formerly "CAN" (Canned).
+> BIP-38 for the post-quantum era. 
 
 An offline, password-based, single-file backup format for a 32-byte SLH-DSA seed.
 Compatible with BIP-360 (P2MR / `bc1r`) and FIPS-205.
