@@ -14,7 +14,7 @@ This format is like BIP-38 (2012): `WIF + password -> 6P...`
 
 `32-byte seed + password -> -----BEGIN PQ SINGLE-ADDRESS BACKUP-----`
 
-- **Offline Only:** A single HTML file (`pq-sab.html`) that works with Wi-Fi OFF. Auditable in 200 lines. No `fetch()`.
+- **Offline Only:** A single HTML file (`index.html`) that works with Wi-Fi OFF. Auditable in 200 lines. No `fetch()`.
 - **Compact:** Output is ~200 chars, fits into your existing 200-char note format.
 - **Standard Crypto:** PBKDF2-HMAC-SHA256 200k iterations + AES-256-GCM. No custom crypto.
 - **Single-Address:** One file = One key = One `bc1r` address. For P2TR -> P2MR migration (P2MR-SLHD).
@@ -39,7 +39,7 @@ This defines HOW to safely store its seed offline before you migrate.
 
 ### Usage
 
-1. Download `pq-sab.html`
+1. Download `index.html`
 2. Disconnect internet
 3. Open file in browser
 4. Paste your 32-byte seed (hex 64 chars) and a strong password
