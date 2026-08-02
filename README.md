@@ -18,7 +18,7 @@ For long-term inheritance and single-address cold storage, many users need somet
 - one address.
 - one password.
 - one paper backup.
-- one QR code.
+- one short text line.
 - No descriptors.
 - No derivation paths.
 - No HD wallet knowledge required.
