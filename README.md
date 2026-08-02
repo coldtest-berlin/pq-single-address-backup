@@ -57,8 +57,9 @@ To restore: same file, paste block + password -> get seed.
 
 ### Roadmap
 
-- v1 (current): PBKDF2-HMAC-SHA256 200k - minimal, native WebCrypto, easy to audit
-- v2 (planned): scrypt N=16384, r=8, p=8 - BIP-38 compatible, memory-hard KDF for weak passwords. KDF field already allows upgrade.
+- v1 (current): PBKDF2-HMAC-SHA256 200k - minimal, native WebCrypto, easy to audit. And v1 shows unencrypted SEED. This is for test purposes only.
+- v2 (planned): scrypt N=16384, r=8, p=8 - BIP-38 compatible, memory-hard KDF for weak passwords. KDF field already allows upgrade. And we will add entropy and remove showing unencrypted SEED. Only encrypted will be shown.
+
 
 Inspired by the user experience of BIP-38.
 
