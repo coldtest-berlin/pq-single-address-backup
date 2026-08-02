@@ -5,14 +5,24 @@
 An offline, password-based, single-file backup format for a 32-byte SLH-DSA seed.
 Compatible with BIP-360 (P2MR / `bc1r`) and FIPS-205.
 
-### Why not just write down the seed?
+### Companion to BIP-360, not a change
 
-Writing down `SLH-DSA seed 32 bytes` in plain text on paper is unsafe. 
-This format is like BIP-38 (2012): `WIF + password -> 6P...`
+This does NOT propose to change BIP-360. BIP-360 defines WHAT a `bc1r` address is.
+This defines HOW to safely store its seed offline before you migrate.
+
+### Motivation
+Existing Bitcoin backups assume HD wallets and descriptors.
+For long-term inheritance and single-address cold storage, many users need something much simpler:
+one address
+one password
+one paper backup
+one QR code
+No descriptors.
+No derivation paths.
+No HD wallet knowledge required.
+Password protected like BIP-38 (2012): `WIF + password -> 6P...`
 
 **This does the same for PQ:**
-
-`32-byte seed + password -> -----BEGIN PQ SINGLE-ADDRESS BACKUP-----`
 
 - **Offline Only:** A single HTML file (`index.html`) that works with Wi-Fi OFF. Auditable in 200 lines. No `fetch()`.
 - **Compact:** Output is ~200 chars, fits into your existing 200-char note format.
@@ -31,11 +41,6 @@ KDF: PBKDF2-SHA256 200000
 ```
 
 Combined raw: `base64(salt || iv || ciphertext || tag)` ~ 120 chars.
-
-### Companion to BIP-360, not a change
-
-This does NOT propose to change BIP-360. BIP-360 defines WHAT a `bc1r` address is.
-This defines HOW to safely store its seed offline before you migrate.
 
 ### Usage
 
@@ -59,5 +64,5 @@ To restore: same file, paste block + password -> get seed.
 
 
 
-Inspired by BIP-38.
+Inspired by the user experience of BIP38.
 
