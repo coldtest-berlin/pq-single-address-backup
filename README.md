@@ -16,7 +16,7 @@ Existing Bitcoin backups assume HD wallets and descriptors.
 For long-term inheritance and single-address cold storage, many users need something much simpler:
 
 - one address.
-- one text line ~200 chars (encrypted private key).
+- one text line ~104 chars Base58 (encrypted private key).
 - No descriptors.
 - No derivation paths.
 - No HD wallet knowledge required.
