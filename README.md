@@ -13,6 +13,7 @@ This defines HOW to safely store its seed offline before you migrate.
 ### Motivation
 Existing Bitcoin backups assume HD wallets and descriptors.
 For long-term inheritance and single-address cold storage, many users need something much simpler:
+
  -one address
  -one password
  -one paper backup
