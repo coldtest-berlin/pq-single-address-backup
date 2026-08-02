@@ -55,7 +55,7 @@ base58( ver:1 || salt:16 || iv:12 || ciphertext:32 || tag:16 ) ~104-106 chars
 1. Download `index.html`
 2. Disconnect internet
 3. Open file in browser
-4. Paste your 32-byte seed (hex 64 chars) and a strong password
+4. Generate 32-byte seed (hex 64 chars) and encrypt it with a strong password.
 5. Copy the output block to your 200-char note.
 
 To restore: same file, paste block + password -> get seed.
