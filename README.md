@@ -53,4 +53,11 @@ To restore: same file, paste block + password -> get seed.
 - This is for long-term cold storage (the "can").
 - Password is mandatory.
 
+### Roadmap
+- v1 (current): PBKDF2-HMAC-SHA256 200k - minimal, native WebCrypto, easy to audit
+- v2 (planned): scrypt N=16384, r=8, p=8 - BIP-38 compatible, memory-hard KDF for weak passwords. KDF field already allows upgrade.
+
+
+
 Inspired by BIP-38.
+
