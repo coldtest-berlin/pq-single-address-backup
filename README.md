@@ -26,15 +26,15 @@ For long-term inheritance and single-address cold storage, many users need somet
 
 - **Offline Only:** A single HTML file (`index.html`) that works with Wi-Fi OFF. Auditable in 200 lines. No `fetch()`, no CDN.
 - **Compact:** Output is ~106 chars Base58. One line = one backup.
-- **Standard Crypto:** PBKDF2-HMAC-SHA256 600k iterations + AES-256-GCM. No custom crypto. Password UTF-8 NFKC.
+- **Standard Crypto:** PBKDF2-HMAC-SHA256 200k iterations + AES-256-GCM. No custom crypto. Password UTF-8 NFKC.
 - **Single-Address:** One file = One key = One `bc1r` address. For migration to P2MR (P2MR-SLH-DSA).
 
 ### Format v1
 **Compact (prod, what you store):**
 
-base58( ver:1 || salt:16 || iv:12 || ciphertext:32 || tag:16 ) ∼104-106 chars
+base58( ver:1 || salt:16 || iv:12 || ciphertext:32 || tag:16 ) ~104-106 chars
 
-- `ver`: 1 byte `0x01` = PBKDF2-SHA256-600k + AES-GCM
+- `ver`: 1 byte `0x01` = PBKDF2-SHA256-200k + AES-GCM
 - `salt`: 16 bytes random
 - `iv`: 12 bytes random
 - `ciphertext + tag`: 32 bytes seed encrypted + 16 bytes GCM tag
@@ -43,13 +43,12 @@ base58( ver:1 || salt:16 || iv:12 || ciphertext:32 || tag:16 ) ∼104-106 chars
 
 **File wrapper (optional, for file backup):**
 
----BEGIN PQ SINGLE-ADDRESS BACKUP-----
+-----BEGIN PQ SINGLE-ADDRESS BACKUP-----
 <106 chars Base58 line>
 -----END PQ SINGLE-ADDRESS BACKUP-----
 
-**Combined raw:** `base58(ver || salt || iv || ct || tag)` ~106 chars. 
+**Combined raw:** `base58(ver || salt || iv || ct || tag)` ~106 chars.
 32-byte seed alone = 44 chars Base58.
-
 
 ### Usage
 
@@ -70,7 +69,7 @@ To restore: same file, paste block + password -> get seed.
 ### Roadmap
 
 - v1 (current): PBKDF2-HMAC-SHA256 200k - minimal, native WebCrypto, easy to audit. And v1 shows unencrypted SEED. This is for test purposes only.
-- v2 (planned): scrypt N=16384, r=8, p=8 - BIP-38 compatible, memory-hard KDF for weak passwords. KDF field already allows upgrade. And we will add entropy and remove showing unencrypted SEED. Only encrypted will be shown.
+- v2 (planned): scrypt N=16384, r=8, p=8 - BIP-38 compatible, memory-hard KDF for weak passwords. KDF field already allows upgrade. Moreover we will add entropy and remove showing unencrypted SEED. Only encrypted will be shown.
 
 
 Inspired by the user experience of BIP-38.
