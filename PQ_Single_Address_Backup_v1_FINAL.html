@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>PQ Single-Address Backup v1</title>
+<style>
+body{font-family:monospace; max-width:700px; margin:40px auto; background:#111; color:#0f0; padding:20px}
+textarea,input{width:100%; background:#000; color:#0f0; border:1px solid #0f0; padding:10px; margin:10px 0}
+button{background:#0f0; color:#000; border:0; padding:12px 20px; font-weight:bold; cursor:pointer; width:100%; margin-top:6px}
+button.secondary{background:#333; color:#0f0; border:1px solid #0f0}
+pre{white-space:pre-wrap; word-break:break-all; background:#000; padding:15px; border:1px dashed #0f0}
+small{color:#888}
+.warn{color:#ff0; border:1px solid #ff0; padding:8px; margin:10px 0; display:block; background:#220}
+</style>
+</head>
+<body>
+<h2>PQ Single-Address Backup v1</h2>
+<p><small>OFFLINE ONLY. No network. PBKDF2 200k + AES-GCM.<br>
+Seed: Hex 64 chars. Backup: Base58 ~104 chars.<br>
+BIP-360 / FIPS-205 companion. BIP-38-like.</small></p>
+
+<button class="secondary" onclick="generateSeed()">[TEST] Generate Random 32-byte Seed</button>
+<span class="warn">TEST MODE: Seed shown for audit. Roadmap: hide seed, add dice/mouse entropy.</span>
+
+<label>32-byte seed (hex, 64 chars):</label>
+<input id="seedHex" placeholder="e.g. 4a5b... 64 hex chars">
+
+<label>Password:</label>
+<input id="pwd" type="password" placeholder="strong password">
+
+<button onclick="encrypt()">CAN IT -> Encrypt</button>
+
+<pre id="out"></pre>
+
+<hr>
+<label>Paste BACKUP BLOCK:</label>
+<textarea id="block" rows="4" placeholder="-----BEGIN PQ SINGLE-ADDRESS BACKUP-----"></textarea>
+<label>Password:</label>
+<input id="pwd2" type="password">
+<button onclick="decrypt()">UNCAN -> Decrypt</button>
+<pre id="out2"></pre>
+
+<script>
+const B58_ALPHABET = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+const B58_MAP = {};
+for(let i=0;i<B58_ALPHABET.length;i++) B58_MAP[B58_ALPHABET[i]]=i;
+function b58encode(bytes){
+  let zeroes = 0;
+  while(zeroes < bytes.length && bytes[zeroes]===0) zeroes++;
+  let num = 0n;
+  for(let b of bytes){ num = (num << 8n) + BigInt(b); }
+  let out = '';
+  while(num > 0n){ let mod = num % 58n; out = B58_ALPHABET[Number(mod)] + out; num = num / 58n; }
+  for(let i=0;i<zeroes;i++) out = '1' + out;
+  return out || '1';
+}
+function b58decode(str){
+  str=str.trim().replace(/\s+/g,'');
+  if(!str) throw "empty";
+  let zeroes = 0;
+  while(zeroes < str.length && str[zeroes]==='1') zeroes++;
+  let num = 0n;
+  for(let c of str){
+    if(!(c in B58_MAP)) throw "bad char "+c;
+    num = num * 58n + BigInt(B58_MAP[c]);
+  }
+  let hex = num.toString(16);
+  if(hex.length %2) hex='0'+hex;
+  let bytes = hex ? Uint8Array.from(hex.match(/../g).map(h=>parseInt(h,16))) : new Uint8Array(0);
+  let out = new Uint8Array(zeroes + bytes.length);
+  out.set(bytes, zeroes);
+  return out;
+}
+async function deriveKey(pwd, salt){
+  const enc = new TextEncoder();
+  const keyMat = await crypto.subtle.importKey("raw", enc.encode(pwd), "PBKDF2", false, ["deriveKey"]);
+  return crypto.subtle.deriveKey({name:"PBKDF2", salt: salt, iterations: 200000, hash:"SHA-256"}, keyMat, {name:"AES-GCM", length:256}, false, ["encrypt","decrypt"]);
+}
+function hexToBytes(hex){
+  hex=hex.trim().replace(/^0x/,'');
+  if(!/^[0-9a-fA-F]{64}$/.test(hex)) throw "hex must be 64 chars";
+  return Uint8Array.from(hex.match(/../g).map(h=>parseInt(h,16)));
+}
+function bytesToHex(b){ return [...b].map(x=>x.toString(16).padStart(2,'0')).join(''); }
+function generateSeed(){
+  const seed = crypto.getRandomValues(new Uint8Array(32));
+  document.getElementById('seedHex').value = bytesToHex(seed);
+  document.getElementById('out').textContent = "[TEST] Generated hex:\n"+bytesToHex(seed)+"\nNow set password and CAN IT.";
+}
+async function encrypt(){
+ try{
+  const seed = hexToBytes(document.getElementById('seedHex').value);
+  const pwd = document.getElementById('pwd').value; if(!pwd) throw "need pwd";
+  const salt = crypto.getRandomValues(new Uint8Array(16));
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const key = await deriveKey(pwd, salt);
+  const ct = new Uint8Array(await crypto.subtle.encrypt({name:"AES-GCM", iv:iv}, key, seed));
+  const combined = new Uint8Array(salt.length+iv.length+ct.length);
+  combined.set(salt,0); combined.set(iv,16); combined.set(ct,28);
+  const b58 = b58encode(combined);
+  const block = `-----BEGIN PQ SINGLE-ADDRESS BACKUP-----\n${b58.match(/.{1,64}/g).join('\n')}\nKDF: PBKDF2-SHA256-200k\nENC: AES-GCM Base58\n-----END PQ SINGLE-ADDRESS BACKUP-----`;
+  document.getElementById('out').textContent = block + "\n\nLength: "+b58.length+" chars\n[TEST] Seed hex: "+bytesToHex(seed);
+ }catch(e){ document.getElementById('out').textContent="Error: "+e; }
+}
+async function decrypt(){
+ try{
+  const m = document.getElementById('block').value.match(/BEGIN[\s\S]*?([123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz\s]+)[\s\S]*?END/);
+  if(!m) throw "bad format";
+  const all = b58decode(m[1].replace(/\s/g,''));
+  const salt = all.slice(0,16); const iv = all.slice(16,28); const ct = all.slice(28);
+  const pwd = document.getElementById('pwd2').value; if(!pwd) throw "need pwd";
+  const key = await deriveKey(pwd, salt);
+  const pt = new Uint8Array(await crypto.subtle.decrypt({name:"AES-GCM", iv:iv}, key, ct));
+  document.getElementById('out2').textContent="OK\nHex seed (64 chars):\n"+bytesToHex(pt);
+ }catch(e){ document.getElementById('out2').textContent="Error: "+e; }
+}
+</script>
+</body>
+</html>
