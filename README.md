@@ -12,7 +12,8 @@ This defines HOW to safely store its seed offline before you migrate.
 
 ### Motivation
 
-Existing Bitcoin backups assume HD wallets and descriptors.
+The problem with plain seed: If you store 64 hex or mnemonic at home in open form, anyone who finds the paper steals the funds. You can't make copies, you can't put it in Gmail/cloud, you can't give a copy to heirs today. • Result: people have 1 copy hidden in a drawer. Fire/theft = loss. 
+The second problem are inheritors which may be not familiar with HD wallets and descriptors.
 For long-term inheritance and single-address cold storage, many users need something much simpler:
 
 - one address.
