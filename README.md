@@ -12,16 +12,15 @@ This defines HOW to safely store its seed offline before you migrate.
 
 ### Motivation
 
-The problem with plain seed: If you store 64 hex or mnemonic at home in open form, anyone who finds the paper steals the funds. You can't make copies, you can't put it in Gmail/cloud, you can't give a copy to heirs today. • Result: people have 1 copy hidden in a drawer. Fire/theft = loss. 
+The problem with plain seed: If you store 64 hex or mnemonic at home in open form, anyone who finds the paper steals the funds. You can't make copies, you can't put it in Gmail/cloud. Result: people have 1 copy hidden in a drawer. Fire/theft = loss. 
+
 The second problem are inheritors which may be not familiar with HD wallets and descriptors.
-For long-term inheritance and single-address cold storage, many users need something much simpler:
+For long-term cold storage and inheritance, we suggest an encrypted single-address backup.
 
 - one address.
-- one text line ~106 chars Base58 (encrypted private key).
-- No descriptors.
-- No derivation paths.
-- No HD wallet knowledge required.
-- Password protected like BIP-38 (2012): `WIF + password -> 6P...`
+- one text line 106 chars Base58 (encrypted private key).
+- No descriptors, no derivation paths, no HD wallet knowledge required.
+- Password protected like BIP-38 (2012): `WIF + password -> 6P...`. You can make many copies and keep them in different places.
 
 **This does the same for PQ:**
 
@@ -70,7 +69,7 @@ To restore: same file, paste block + password -> get seed.
 ### Roadmap
 
 - v1 (audit,testing): PBKDF2-HMAC-SHA256 200k - minimal, native WebCrypto, easy to audit. v1 shows unencrypted SEED for length testing only.
-- v2 (planned): scrypt N=16384, r=8, p=8 - BIP-38 compatible, memory-hard KDF for weak passwords. KDF field already allows upgrade. Moreover we will improve entropy and remove showing unencrypted SEED. Only encrypted will be shown.
+- v2 (planned): scrypt N=16384, r=8, p=8 - BIP-38 compatible, memory-hard KDF for weak passwords. KDF field already allows upgrade. We will remove exposing unencrypted SEED. Only encrypted will be exposed.
 - v3 (after BIP-360 final): Show `bc1r` deposit address. Will require SLH-DSA (FIPS-205) key derivation. Not included in v1 to keep `index.html` auditable (<200 lines, zero deps). For now, verify address with external BIP-360 tool.
 
 Inspired by the user experience of BIP-38.
