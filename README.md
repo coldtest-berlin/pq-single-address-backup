@@ -56,7 +56,7 @@ base58( ver:1 || salt:16 || iv:12 || ciphertext:32 || tag:16 ) ~104-106 chars
 2. Generate 32-byte seed (hex 64 chars) and encrypt it with a strong password.
 3. Print output block.
 
-To restore: same file, paste block + password -> get seed 64 hex, then sweep to PQ wallet.
+To decrypt: same file, input 106 chars + password -> get seed 64 hex, then sweep to PQ wallet.
 
 ### Security
 
