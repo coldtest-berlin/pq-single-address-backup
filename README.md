@@ -25,7 +25,7 @@ For long-term cold storage and inheritance, we suggest an encrypted single-addre
 **This does the same for PQ:**
 
 - **Offline Only:** A single HTML file (`index.html`) that works with Wi-Fi OFF. Auditable in 200 lines. No `fetch()`, no CDN.
-- **Compact:** Output is ~106 chars Base58. One line = one backup.
+- **Compact:** Output is ~103-105 chars Base58. One line = one backup.
 - **Standard Crypto:** PBKDF2-HMAC-SHA256 200k iterations + AES-256-GCM. No custom crypto. Password UTF-8 NFKC.
 - **Single-Address:** One file = One key = One `bc1r` address. For migration to P2MR (P2MR-SLH-DSA).
 
@@ -43,7 +43,7 @@ base58( salt:16 || iv:12 || ciphertext:32 || tag:16 ) ~104-106 chars
 **File wrapper (optional, for file backup):**
 
 -----BEGIN PQ SINGLE-ADDRESS BACKUP-----
-<106 chars Base58 line>
+<103-105 chars Base58 line>
 -----END PQ SINGLE-ADDRESS BACKUP-----
 
 **Combined raw:** `base58(salt || iv || ct || tag)` ~103-105 chars.
