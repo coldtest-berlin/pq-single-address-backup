@@ -3,11 +3,11 @@
 > BIP-38 for the post-quantum era.
 
 An offline, password-based, single-file backup format for a 32-byte SLH-DSA seed.
-Compatible with BIP-360 (P2MR / `bc1r`) and FIPS-205.
+Compatible with BIP-360 (P2MR / `bc1z`) and FIPS-205.
 
 ### Companion to BIP-360, not a change
 
-This does NOT propose to change BIP-360. BIP-360 defines WHAT a `bc1r` address is.
+This does NOT propose to change BIP-360. BIP-360 defines WHAT a `bc1z` address is.
 This defines HOW to safely store its seed offline before you migrate.
 
 ### Motivation
@@ -27,12 +27,12 @@ For long-term cold storage and inheritance, we suggest an encrypted single-addre
 - **Offline Only:** A single HTML file (`index.html`) that works with Wi-Fi OFF. Auditable in 200 lines. No `fetch()`, no CDN.
 - **Compact:** Output is ~103-105 chars Base58. One line = one backup.
 - **Standard Crypto:** PBKDF2-HMAC-SHA256 200k iterations + AES-256-GCM. No custom crypto. Password UTF-8 NFKC.
-- **Single-Address:** One file = One key = One `bc1r` address. For migration to P2MR (P2MR-SLH-DSA).
+- **Single-Address:** One file = One key = One `bc1z` address. For migration to P2MR (P2MR-SLH-DSA).
 
 ### Format v1
 **Compact (prod, what you store):**
 
-base58( salt:16 || iv:12 || ciphertext:32 || tag:16 ) ~104-106 chars
+base58( salt:16 || iv:12 || ciphertext:32 || tag:16 ) ~103-105 chars
 
 - `salt`: 16 bytes random
 - `iv`: 12 bytes random
