@@ -18,7 +18,7 @@ The second problem are inheritors which may be not familiar with HD wallets and 
 For long-term cold storage and inheritance, we suggest an encrypted single-address backup.
 
 - one address.
-- one text line 106 chars Base58 (encrypted private key).
+- one text line 103-105 chars Base58 (encrypted private key).
 - No descriptors, no derivation paths, no HD wallet knowledge required.
 - Password protected like BIP-38 (2012): `WIF + password -> 6P...`. You can make many copies and keep them in different places.
 
@@ -46,7 +46,7 @@ base58( salt:16 || iv:12 || ciphertext:32 || tag:16 ) ~104-106 chars
 <106 chars Base58 line>
 -----END PQ SINGLE-ADDRESS BACKUP-----
 
-**Combined raw:** `base58(salt || iv || ct || tag)` ~104 chars.
+**Combined raw:** `base58(salt || iv || ct || tag)` ~103-105 chars.
 
 ### Usage
 
