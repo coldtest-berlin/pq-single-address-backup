@@ -32,14 +32,14 @@ For long-term cold storage and inheritance, we suggest an encrypted single-addre
 ### Format v1
 **Compact (prod, what you store):**
 
-base58( ver:1 || salt:16 || iv:12 || ciphertext:32 || tag:16 ) ~104-106 chars
+base58( salt:16 || iv:12 || ciphertext:32 || tag:16 ) ~104-106 chars
 
 - `ver`: 1 byte `0x01` = PBKDF2-SHA256-200k + AES-GCM
 - `salt`: 16 bytes random
 - `iv`: 12 bytes random
 - `ciphertext + tag`: 32 bytes seed encrypted + 16 bytes GCM tag
 - Alphabet: Bitcoin Base58 (no `0 O I l / + = ]`), no padding
-- Total: 77 bytes -> 104-106 chars Base58
+- Total: 76 bytes -> 103-105 chars Base58
 
 **File wrapper (optional, for file backup):**
 
@@ -47,8 +47,7 @@ base58( ver:1 || salt:16 || iv:12 || ciphertext:32 || tag:16 ) ~104-106 chars
 <106 chars Base58 line>
 -----END PQ SINGLE-ADDRESS BACKUP-----
 
-**Combined raw:** `base58(ver || salt || iv || ct || tag)` ~106 chars.
-32-byte seed alone = 44 chars Base58.
+**Combined raw:** `base58(salt || iv || ct || tag)` ~104 chars.
 
 ### Usage
 
