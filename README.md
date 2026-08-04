@@ -34,7 +34,6 @@ For long-term cold storage and inheritance, we suggest an encrypted single-addre
 
 base58( salt:16 || iv:12 || ciphertext:32 || tag:16 ) ~104-106 chars
 
-- `ver`: 1 byte `0x01` = PBKDF2-SHA256-200k + AES-GCM
 - `salt`: 16 bytes random
 - `iv`: 12 bytes random
 - `ciphertext + tag`: 32 bytes seed encrypted + 16 bytes GCM tag
