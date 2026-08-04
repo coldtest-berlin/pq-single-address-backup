@@ -32,7 +32,7 @@ For long-term cold storage and inheritance, we suggest an encrypted single-addre
 ### Format v1
 **Compact (prod, what you store):**
 
-base58( salt:16 || iv:12 || ciphertext:32 || tag:16 ) ~103-105 chars
+base58( salt:16 || iv:12 || ciphertext:32 || tag:16 ) 104 chars
 
 - `salt`: 16 bytes random
 - `iv`: 12 bytes random
@@ -62,7 +62,7 @@ To decrypt: same file, input 104 chars + password -> get seed 64 hex, then sweep
 
 If the community accepts the concept, unified parameters are mandatory. The concept of a 104-char single-address encrypted backup for cold storage ("the can") only makes sense if everyone uses the same KDF and ENC. Without agreement, every wallet will implement its own variant of KDF and ENC.
 Therefore a new BIP is required. The community must agree on ONE canonical profile, e.g.:  KDF = Argon2id (t=3, m=64MB, p=1), ENC = AES-GCM-256 or ChaCha20-Poly1305, Format = Base58(salt||iv||ct)
-
+We will not propose the BIP ourselves. This should be done by influential and authoritative people.
 
 Inspired by the user experience of BIP-38.
 
