@@ -7,7 +7,7 @@ Compatible with BIP-360 (P2MR / `bc1r`) and FIPS-205.
 
 ### Companion to BIP-360, not a change
 
-This does NOT propose to change BIP-360. BIP-360 defines WHAT a `bc1r` address is.
+This does NOT propose to change BIP-360. BIP-360 defines WHAT a `bc1z` address is.
 This defines HOW to safely store its seed offline before you migrate.
 
 ### Motivation
@@ -64,11 +64,13 @@ To decrypt: same file, input 106 chars + password -> get seed 64 hex, then sweep
 - This is for long-term cold storage (the "can").
 - Password is mandatory.
 
-### Roadmap
+### Roadmap & Standardization
 
-- v1 (audit,testing): PBKDF2-HMAC-SHA256 200k - minimal, native WebCrypto, easy to audit. v1 shows unencrypted SEED for length testing only.
-- v2 (planned): scrypt N=16384, r=8, p=8 - BIP-38 compatible, memory-hard KDF for weak passwords. KDF field already allows upgrade. We will remove exposing unencrypted SEED. Only encrypted will be exposed.
-- v3 (after BIP-360 final): Show `bc1r` deposit address. Will require SLH-DSA (FIPS-205) key derivation. Not included in v1 to keep `index.html` auditable (<200 lines, zero deps). For now, verify address with external BIP-360 tool.
+- v1 (current, audit build): PBKDF2-HMAC-SHA256 200k + AES-GCM-256. Payload is salt 16 | iv 12 | ciphertext 48 = 76 bytes -> Base58 ∼104 chars. This version is intentionally minimal: pure WebCrypto, no dependencies, easy to audit. It shows the unencrypted seed in TEST MODE — for audit purposes only.
+
+If the community accepts the concept, unified parameters are mandatory. The concept of a 200-char single-address encrypted backup for cold storage ("the can") only makes sense if everyone uses the same KDF and ENC. Without agreement, every wallet will implement its own variant of KDF and ENC.
+Therefore a new BIP is required. The community must agree on ONE canonical profile, e.g.:  KDF = Argon2id (t=3, m=64MB, p=1), ENC = AES-GCM-256 or ChaCha20-Poly1305, Format = Base58(salt||iv||ct)
+
 
 Inspired by the user experience of BIP-38.
 
