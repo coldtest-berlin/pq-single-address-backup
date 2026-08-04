@@ -60,7 +60,7 @@ To decrypt: same file, input 104 chars + password -> get seed 64 hex, then sweep
 
 - v1 (current, audit build): PBKDF2-HMAC-SHA256 200k + AES-GCM-256. Payload is salt 16 | iv 12 | ciphertext 48 = 76 bytes -> Base58 104 chars. This version is intentionally minimal: pure WebCrypto, no dependencies, easy to audit. It shows the unencrypted seed in TEST MODE — for audit purposes only.
 
-If the community accepts the concept, unified parameters are mandatory. The concept of a 200-char single-address encrypted backup for cold storage ("the can") only makes sense if everyone uses the same KDF and ENC. Without agreement, every wallet will implement its own variant of KDF and ENC.
+If the community accepts the concept, unified parameters are mandatory. The concept of a 104-char single-address encrypted backup for cold storage ("the can") only makes sense if everyone uses the same KDF and ENC. Without agreement, every wallet will implement its own variant of KDF and ENC.
 Therefore a new BIP is required. The community must agree on ONE canonical profile, e.g.:  KDF = Argon2id (t=3, m=64MB, p=1), ENC = AES-GCM-256 or ChaCha20-Poly1305, Format = Base58(salt||iv||ct)
 
 
