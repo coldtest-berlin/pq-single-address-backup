@@ -7,7 +7,7 @@ Compatible with BIP-360 (P2MR / `bc1r`) and FIPS-205.
 
 ### Companion to BIP-360, not a change
 
-This does NOT propose to change BIP-360. BIP-360 defines WHAT a `bc1z` address is.
+This does NOT propose to change BIP-360. BIP-360 defines WHAT a `bc1r` address is.
 This defines HOW to safely store its seed offline before you migrate.
 
 ### Motivation
