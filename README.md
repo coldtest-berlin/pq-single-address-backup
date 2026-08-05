@@ -38,7 +38,6 @@ base58( salt:16 || iv:12 || ciphertext:32 || tag:16 ) 104 chars
 - `iv`: 12 bytes random
 - `ciphertext + tag`: 32 bytes seed encrypted + 16 bytes GCM tag
 - Alphabet: Bitcoin Base58 (no `0 O I l / + = ]`), no padding
-- Total: 76 bytes -> 104 chars Base58
 
 **Combined raw:** `base58(salt || iv || ct || tag)` 104 chars.
 
