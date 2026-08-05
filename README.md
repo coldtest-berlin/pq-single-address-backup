@@ -24,7 +24,7 @@ For long-term cold storage and inheritance, we suggest an encrypted single-addre
 
 **This does the same for PQ:**
 
-- **Offline Only:** A single HTML file (`index.html`) that works with Wi-Fi OFF. Auditable in 200 lines. No `fetch()`, no CDN.
+- **Offline Only:** A single HTML file (`index.html`) that works with Wi-Fi OFF. Auditable in 200 lines. No `fetch()`, no CDN.CSP: default-src 'none' — browser blocks any network. Check DevTools → Network: 0 requests.
 - **Compact:** Output is 104 chars Base58. One line = one backup.
 - **Standard Crypto:** PBKDF2-HMAC-SHA256 200k iterations + AES-256-GCM. No custom crypto. Password UTF-8 NFKC.
 - **Single-Address:** One file = One key = One `bc1z` address. For migration to P2MR (P2MR-SLH-DSA).
@@ -55,6 +55,7 @@ To decrypt: same file, input 104 chars + password -> get seed 64 hex, then sweep
 - NEVER decrypt online.
 - This is for long-term cold storage (the "can").
 - Password is mandatory.
+- CSP-protected, offline verifiable.
 
 ### Roadmap & Standardization
 
