@@ -27,7 +27,7 @@ For long-term cold storage and inheritance, we suggest an encrypted single-addre
 - **Offline Only:** A single HTML file (`index.html`) that works with Wi-Fi OFF. Auditable in 200 lines. No `fetch()`, no CDN. CSP: default-src 'none' — browser blocks any network. Check DevTools → Network: 0 requests.
 - **Compact:** Output is 104 chars Base58. One line = one backup.
 - **Standard Crypto:** PBKDF2-HMAC-SHA256 200k iterations + AES-256-GCM. No custom crypto. Password UTF-8 NFKC.
-- **Single-Address:** One backup = One key = One address for hodl. Ready for sweep to P2MR operational wallet (after years, when you need your BTC).
+- **Single-Address:** One backup = One key = One address for hodl. Ready for sweep to PQ operational wallet (after years, when you need your BTC).
 
 ### Format v1
 **Compact (prod, what you store):**
