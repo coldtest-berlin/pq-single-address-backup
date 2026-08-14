@@ -3,11 +3,11 @@
 > BIP-38 for the post-quantum era.
 
 An offline, password-based, single-file backup format for a 32-byte SLH-DSA seed.
-Compatible with BIP-360 (P2MR / `bc1z`) and FIPS-205.
+Compatible with BIP-360 (P2MR / P2QRH) and FIPS-205.
 
 ### Companion to BIP-360, not a change
 
-This does NOT propose to change BIP-360. BIP-360 defines WHAT a `bc1z` address is.
+This does NOT propose to change BIP-360. BIP-360 defines WHAT an address is.
 This defines HOW to safely store its seed offline.
 
 ### Motivation
