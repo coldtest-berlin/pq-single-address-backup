@@ -65,7 +65,7 @@ Therefore a new BIP is required. The community should agree on ONE canonical pro
 We will not propose the BIP ourselves. This should be done by influential and authoritative people.
 
 ### Update after discussion at Delving Bitcoin
-Thanks to feedback from Anzus_GemWallet on Delvong Bitcoin:
+Thanks to feedback from Anzus_GemWallet on Delving Bitcoin:
 - Possible change: add a fast pre-KDF checksum to catch transcription typos before the heavy KDF.
 - AEAD failure semantics: specify as authentication failed — not wrong password — since AEAD cannot distinguish wrong password from corrupted ciphertext.
 - Outer header (version | KDF id | bounded params) as AAD: to allow KDF selection before decrypt while still detecting header tampering.
