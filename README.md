@@ -64,6 +64,15 @@ If the community accepts the concept, unified parameters are mandatory. The conc
 Therefore a new BIP is required. The community should agree on ONE canonical profile, e.g.:  KDF = Argon2id (t=3, m=64MB, p=1), ENC = AES-GCM-256 or ChaCha20-Poly1305, Format = Base58(salt||iv||ct|tag).
 We will not propose the BIP ourselves. This should be done by influential and authoritative people.
 
+### Update after discussion at Delving Bitcoin
+Thanks to feedback from Anzus_GemWallet on Delvong Bitcoin:
+- Possible change: add a fast pre-KDF checksum to catch transcription typos before the heavy KDF.
+- AEAD failure semantics: specify as authentication failed — not wrong password — since AEAD cannot distinguish wrong password from corrupted ciphertext.
+- Outer header (version | KDF id | bounded params) as AAD: to allow KDF selection before decrypt while still detecting header tampering.
+
+These points should be decided together as part of a shared BIP. This repo / proposal can serve as a starting point.
+
+
 Inspired by the user experience of BIP-38.
 
 
